@@ -24,11 +24,11 @@ console.log('listening for messages')
 
 /** channels in the chat */
 const channels = {
-  'general-millis': 'general',
-  'bot-shit': 'bot',
+  'general': 'general-millis',
+  'bots': 'bot-shit',
   'rules': 'rules',
-  'dank-maymays': 'dank',
-  'boomers-only': 'boomers'
+  'dank': 'dank-maymays',
+  'boomers': 'boomers-only'
 }
 
 /** returns parsed message */
@@ -92,7 +92,18 @@ const update_words = async () => {
   return readFile('update.json', 'utf8')
 }
 
+
+
+
 status = true
+
+/** array of all the current channels */
+const activeChannels = _.map(channels, c => ({ [c]: bot.channels.cache.get(c) })); 
+
+/** send welcome message */
+activeChannels.bots.send('Im back bois')
+
+
 bot.on('message', msg => {
   try {
     const message = msgParse(msg)
