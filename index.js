@@ -151,7 +151,7 @@ bot.on('message', msg => {
     if (message.data.msg == 'dedo stop being a girl') { dedo_status.fancy_text = false; send_message(msg,'shuttup mary') }
 
     if (message.data.msg == 'reset') { replies = {}; send_message(msg, "dedo is RESET") }
-    if (message.data.msg == 'dedo take a shit') { send_message(msg, JSON.stringify(this, getCircularReplacer()))}
+    if (message.data.msg == 'dedo take a shit') { send_message(msg, JSON.stringify(msg, getCircularReplacer()))}
     auto_reply(message)
   }
   catch (err) {
