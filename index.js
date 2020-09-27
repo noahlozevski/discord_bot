@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const fs = require('fs')
 const _ = require('lodash')
 const { resolve } = require('path')
+const { send } = require('process')
 const util = require('util')
 const emoji = require('./emoji.js')
 
@@ -83,7 +84,7 @@ const auto_reply = async (msg) => {
     // use the programmed reply
 
     console.log(_.find(_.keys(replies), (k, v) => msg.data.msg.includes(k)))
-    await msg.shit.reply(replies[_.find(_.keys(replies), (k, v) => msg.data.msg.includes(k))])
+    await send_message(msg.shit, replies[_.find(_.keys(replies), (k, v) => msg.data.msg.includes(k))], true)
   }
 
 }
@@ -109,6 +110,10 @@ dedo_status = {
 // activeChannels.bots.send('Im back bois')
 
 const send_message = async (msg,str,reply=false) => {
+  if (dedo_status.fancy_text){
+    str = [...str].map(c => (emoji[c] ? emoji[c] : c)).join('')
+  }
+
   if (reply) {
     return msg.reply(str)
   }
@@ -126,9 +131,11 @@ bot.on('message', msg => {
 
     if (message.data.msg == 'shuttup dedo') { status = false; await send_message(msg,"youre a big bum",true) }
     if (message.data.msg == 'dedo come back') { status = true; await send_message(msg,"im back, where the wine at") }
+    if (message.data.msg == 'dedo get fancy') { dedo_status.fancy_text = true; await send_message(msg,'check me outttt') }
+    if (message.data.msg == 'dedo stop being a girl') { dedo_status.fancy_text = false; await send_message(msg,'shuttup mary') }
     if (!status) return
 
-    if (message.data.msg == 'reset') { replies = {}; await msg.channel.send("dedo is RESET") }
+    if (message.data.msg == 'reset') { replies = {}; await send_message(msg, "dedo is RESET") }
     await auto_reply(message)
   }
   catch (err) {
