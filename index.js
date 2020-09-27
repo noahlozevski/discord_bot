@@ -112,7 +112,7 @@ bot.on('message', msg => {
     if (message.data.isBot) return
 
     if (message.data.msg == 'shuttup dedo') { status = false; msg.reply("youre a big bum") }
-    if (message.data.msg == 'dedo come back') { status = true; msg.channel.send('im back, wheres the wine at') }
+    if (message.data.msg == 'dedo come back') { status = true; msg.channel.send('im back, where the wine at') }
     if (!status) return
 
     if (message.data.msg == 'reset') { replies = {}; msg.channel.send("dedo is RESET") }
