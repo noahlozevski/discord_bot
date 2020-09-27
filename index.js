@@ -84,7 +84,7 @@ const auto_reply = async (msg) => {
     // use the programmed reply
 
     console.log(_.find(_.keys(replies), (k, v) => msg.data.msg.includes(k)))
-    await send_message(msg.shit, replies[_.find(_.keys(replies), (k, v) => msg.data.msg.includes(k))], true)
+    send_message(msg.shit, replies[_.find(_.keys(replies), (k, v) => msg.data.msg.includes(k))], true)
   }
 
 }
@@ -99,7 +99,6 @@ const update_words = async () => {
 dedo_status = {
   active: true,
   fancy_text: false,
-
 }
 
 
@@ -128,15 +127,15 @@ bot.on('message', msg => {
     console.log('message recieved: \n', message.data)
     /** filter all bot messages for now */
     if (message.data.isBot) return
-
-    if (message.data.msg == 'shuttup dedo') { status = false; await send_message(msg,"youre a big bum",true) }
-    if (message.data.msg == 'dedo come back') { status = true; await send_message(msg,"im back, where the wine at") }
-    if (message.data.msg == 'dedo get fancy') { dedo_status.fancy_text = true; await send_message(msg,'check me outttt') }
-    if (message.data.msg == 'dedo stop being a girl') { dedo_status.fancy_text = false; await send_message(msg,'shuttup mary') }
+    if (message.data.msg == 'shuttup dedo') { status = false; send_message(msg,"youre a big bum",true) }
+    if (message.data.msg == 'dedo come back') { status = true; send_message(msg,"im back, where the wine at") }
     if (!status) return
 
-    if (message.data.msg == 'reset') { replies = {}; await send_message(msg, "dedo is RESET") }
-    await auto_reply(message)
+    if (message.data.msg == 'dedo get fancy') { dedo_status.fancy_text = true; send_message(msg,'check me outttt') }
+    if (message.data.msg == 'dedo stop being a girl') { dedo_status.fancy_text = false; send_message(msg,'shuttup mary') }
+
+    if (message.data.msg == 'reset') { replies = {}; send_message(msg, "dedo is RESET") }
+    auto_reply(message)
   }
   catch (err) {
     console.log(err)
