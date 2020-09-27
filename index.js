@@ -101,6 +101,19 @@ dedo_status = {
   fancy_text: false,
 }
 
+const getCircularReplacer = () => {
+  const seen = new WeakSet()
+  return (key, value) => {
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return
+      }
+      seen.add(value)
+    }
+    return value
+  }
+}
+
 const prev_messages = Object.assign(_.map(_.keys(channels), k => ({ [k]: '' })))
 
 // /** array of all the current channels */
@@ -128,7 +141,7 @@ bot.on('message', msg => {
     console.log('message recieved: \n', message.data)
     /** filter all bot messages for now */
     /** same message, dont send anything, probably is spam */
-    if (message.data.msg == prev_messages[msg.channel.name]) return
+    if (message.data.msg == prev_messages[msg.channel.name] || message.data.isBot) return
     // if (message.data.isBot) return
     if (message.data.msg == 'shuttup dedo') { dedo_status.active = false; send_message(msg,"youre a big bum",true) }
     if (message.data.msg == 'dedo come back') { dedo_status.active = true; send_message(msg,"im back, where the wine at") }
@@ -138,6 +151,7 @@ bot.on('message', msg => {
     if (message.data.msg == 'dedo stop being a girl') { dedo_status.fancy_text = false; send_message(msg,'shuttup mary') }
 
     if (message.data.msg == 'reset') { replies = {}; send_message(msg, "dedo is RESET") }
+    if (message.data.msg == 'dedo take a shit') { send_message(msg, JSON.stringify(this, getCircularReplacer()))}
     auto_reply(message)
   }
   catch (err) {
