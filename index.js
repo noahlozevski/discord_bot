@@ -97,11 +97,11 @@ const update_words = async () => {
 
 status = true
 
-/** array of all the current channels */
-const activeChannels = _.map(channels, c => ({ [c]: bot.channels.cache.get(c) })); 
+// /** array of all the current channels */
+// const activeChannels = _.map(channels, c => ({ [c]: bot.channels.cache.get(c) })); 
 
-/** send welcome message */
-activeChannels.bots.send('Im back bois')
+// /** send welcome message */
+// activeChannels.bots.send('Im back bois')
 
 
 bot.on('message', msg => {
