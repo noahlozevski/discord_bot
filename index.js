@@ -98,6 +98,7 @@ bot.on('message', msg => {
     const message = msgParse(msg)
     console.log('message recieved: \n', message.data)
     if (message.data.isBot) return
+    if (message.data.msg == 'reset') { replies = {}; msg.channel.send("dedo is RESET") }
     auto_reply(message)
   }
   catch (err) {

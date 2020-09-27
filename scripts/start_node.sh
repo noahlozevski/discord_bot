@@ -10,5 +10,5 @@ npm install
 # kill all previous bots
 killall node
 # start the app
-node index.js &
+nohup node index.js &
 disown
