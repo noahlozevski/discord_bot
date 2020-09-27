@@ -130,9 +130,9 @@ bot.on('message', msg => {
     /** same message, dont send anything, probably is spam */
     if (message.data.msg == prev_messages[msg.channel.name]) return
     // if (message.data.isBot) return
-    if (message.data.msg == 'shuttup dedo') { status = false; send_message(msg,"youre a big bum",true) }
-    if (message.data.msg == 'dedo come back') { status = true; send_message(msg,"im back, where the wine at") }
-    if (!status) return
+    if (message.data.msg == 'shuttup dedo') { dedo_status.active = false; send_message(msg,"youre a big bum",true) }
+    if (message.data.msg == 'dedo come back') { dedo_status.active = true; send_message(msg,"im back, where the wine at") }
+    if (!dedo_status.active) return
 
     if (message.data.msg == 'dedo get fancy') { dedo_status.fancy_text = true; send_message(msg,'check me outttt') }
     if (message.data.msg == 'dedo stop being a girl') { dedo_status.fancy_text = false; send_message(msg,'shuttup mary') }
