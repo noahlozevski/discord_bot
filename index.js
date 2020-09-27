@@ -12,7 +12,6 @@ const bot = new Discord.Client({
 })
 
 const TOKEN = process.env.DISCORD_TOKEN
-console.log(process.env)
 
 bot.login(TOKEN)
 const readFile = util.promisify(fs.readFile)
@@ -135,23 +134,37 @@ const send_message = async (msg,str,reply=false) => {
   }
 }
 
-bot.on('message', msg => {
+const large_message_send = (msg, text) => {
+  _.forEach(_.chunk(text.split(''), 1000), m => send_message(msg,m.join('').replace(',','')))
+}
+
+const data = ['','','','','']
+let i = 0;
+bot.on('message', (msg) => {
   try {
     const message = msgParse(msg)
     console.log('message recieved: \n', message.data)
     /** filter all bot messages for now */
     /** same message, dont send anything, probably is spam */
-    if (message.data.msg == prev_messages[msg.channel.name] || message.data.isBot) return
+    data[i] = msg
+    i++
+    if (i === 5) i = 0
+    console.log(data.map(d => util.inspect(d).split('')))
+    console.log(_.map(data, d => `message number ${i+1}: \n\n  ${util.inspect(d)}\n\n`).join(''))
+    // console.log(_.map(data, d => (`message number 3: \n\n  ${util.inspect(d)}\n\n`)))
+    if (message.data.msg == prev_messages[msg.channel.name] || message.data.isBot || msg.author.username == 'Dedo#2603') return
+    if (message.data.msg == 'reset') { replies = {}; send_message(msg, "dedo is RESET") }
+    if (message.data.msg == 'dedo take a shit') { _.forEach(_.chunk(`message: ${util.inspect(msg)} \n\n client: ${util.inspect(bot)}`.split(''), 1000), m => send_message(msg,m.join('').replace(',',''))) }
+    if (message.data.msg == 'dedo take a better shit') { _.forEach(_.chunk(_.map(data, (d,j,) => `message number ${j+1}: \n\n  ${util.inspect(d)}\n\n`).join('').split(''), 1000), m => send_message(msg,m.join('').replace(',',''))) }
     // if (message.data.isBot) return
+
     if (message.data.msg == 'shuttup dedo') { dedo_status.active = false; send_message(msg,"youre a big bum",true) }
-    if (message.data.msg == 'dedo come back') { dedo_status.active = true; send_message(msg,"im back, where the wine at") }
+    if (message.data.msg == 'dedo come back') { dedo_status.active = true; send_message(msg,"im back, wheres my wine") }
     if (!dedo_status.active) return
 
     if (message.data.msg == 'dedo get fancy') { dedo_status.fancy_text = true; send_message(msg,'check me outttt') }
     if (message.data.msg == 'dedo stop being a girl') { dedo_status.fancy_text = false; send_message(msg,'shuttup mary') }
 
-    if (message.data.msg == 'reset') { replies = {}; send_message(msg, "dedo is RESET") }
-    if (message.data.msg == 'dedo take a shit') { send_message(msg, JSON.stringify(msg, getCircularReplacer()))}
     auto_reply(message)
   }
   catch (err) {
