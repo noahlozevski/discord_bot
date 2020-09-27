@@ -97,10 +97,13 @@ bot.on('message', msg => {
   try {
     const message = msgParse(msg)
     console.log('message recieved: \n', message.data)
-    if (message.data.msg == 'shuttup dedo') status = !status
-    if (!status) return
-    
+    /** filter all bot messages for now */
     if (message.data.isBot) return
+
+    if (message.data.msg == 'shuttup dedo') { status = false; msg.reply("youre a big bum") }
+    if (message.data.msg == 'dedo come back') { status = true; msg.channel.send('im back, wheres the wine at') }
+    if (!status) return
+
     if (message.data.msg == 'reset') { replies = {}; msg.channel.send("dedo is RESET") }
     auto_reply(message)
   }
