@@ -92,11 +92,14 @@ const update_words = async () => {
   return readFile('update.json', 'utf8')
 }
 
-
+status = true
 bot.on('message', msg => {
   try {
     const message = msgParse(msg)
     console.log('message recieved: \n', message.data)
+    if (message.data.msg == 'shuttup dedo') status = !status
+    if (!status) return
+    
     if (message.data.isBot) return
     if (message.data.msg == 'reset') { replies = {}; msg.channel.send("dedo is RESET") }
     auto_reply(message)
