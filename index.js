@@ -3,6 +3,7 @@ const fs = require('fs')
 const _ = require('lodash')
 const { resolve } = require('path')
 const util = require('util')
+const emoji = require('./emoji.js')
 
 const bot = new Discord.Client({
   disableEveryone: true,
@@ -82,7 +83,7 @@ const auto_reply = async (msg) => {
     // use the programmed reply
 
     console.log(_.find(_.keys(replies), (k, v) => msg.data.msg.includes(k)))
-    msg.shit.reply(replies[_.find(_.keys(replies), (k, v) => msg.data.msg.includes(k))])
+    await msg.shit.reply(replies[_.find(_.keys(replies), (k, v) => msg.data.msg.includes(k))])
   }
 
 }
@@ -93,9 +94,13 @@ const update_words = async () => {
 }
 
 
+/** holds dedos status */
+dedo_status = {
+  active: true,
+  fancy_text: false,
 
+}
 
-status = true
 
 // /** array of all the current channels */
 // const activeChannels = _.map(channels, c => ({ [c]: bot.channels.cache.get(c) })); 
@@ -103,6 +108,14 @@ status = true
 // /** send welcome message */
 // activeChannels.bots.send('Im back bois')
 
+const send_message = async (msg,str,reply=false) => {
+  if (reply) {
+    return msg.reply(str)
+  }
+  else {
+    return msg.channel.send(str)
+  }
+}
 
 bot.on('message', msg => {
   try {
@@ -111,12 +124,12 @@ bot.on('message', msg => {
     /** filter all bot messages for now */
     if (message.data.isBot) return
 
-    if (message.data.msg == 'shuttup dedo') { status = false; msg.reply("youre a big bum") }
-    if (message.data.msg == 'dedo come back') { status = true; msg.channel.send('im back, where the wine at') }
+    if (message.data.msg == 'shuttup dedo') { status = false; await send_message(msg,"youre a big bum",true) }
+    if (message.data.msg == 'dedo come back') { status = true; await send_message(msg,"im back, where the wine at") }
     if (!status) return
 
-    if (message.data.msg == 'reset') { replies = {}; msg.channel.send("dedo is RESET") }
-    auto_reply(message)
+    if (message.data.msg == 'reset') { replies = {}; await msg.channel.send("dedo is RESET") }
+    await auto_reply(message)
   }
   catch (err) {
     console.log(err)
