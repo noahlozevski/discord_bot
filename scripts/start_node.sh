@@ -7,5 +7,8 @@ cd /home/ubuntu/discord
 ls
 pwd
 npm install
-
+# kill all previous bots
+killall node
+# start the app
 node index.js &
+disown
