@@ -1,0 +1,12 @@
+{
+    "sounds hyper": { 
+      "txt": "I know",
+      "channel": "all",
+      "type": "@"
+    },
+    "jonah is gay": { 
+      "txt": "I know",
+      "channel": "all",
+      "type": "@"
+    }
+}
