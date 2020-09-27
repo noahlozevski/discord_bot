@@ -6,5 +6,5 @@ files:
 hooks:
   ApplicationStart:
     - location: scripts/start_node.sh
-      timeout: 60000000
+      timeout: 30
       runas: ubuntu
