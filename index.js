@@ -9,7 +9,8 @@ const bot = new Discord.Client({
   disabledEvents: ['TYPING_START']
 })
 
-const TOKEN = 'NzU5NTQzMjk3NDgzMDc5NzEy.X2_B0Q.C5um6LycD9SeYC7mtmqN_eUjNps'
+const TOKEN = process.env.DISCORD_TOKEN
+console.log(process.env)
 
 bot.login(TOKEN)
 const readFile = util.promisify(fs.readFile)
@@ -48,6 +49,16 @@ const canIBeAdmin = (msg) => {
   return msg.includes(words)
 }
 
+// "sounds hyper": { 
+//   "txt": "I know",
+//   "channel": "all",
+//   "type": "@"
+// },
+// "jonah is gay": { 
+//   "txt": "I know",
+//   "channel": "all",
+//   "type": "@"
+// }
 
 const auto_reply = async (msg) => {
   let data = await update_words() // grab new word mapping of responses
@@ -83,9 +94,13 @@ const update_words = async () => {
 
 
 bot.on('message', msg => {
-  const message = msgParse(msg)
-  console.log('message recieved: \n', message.data)
-  if (message.data.isBot) return
-  auto_reply(message)
-
+  try {
+    const message = msgParse(msg)
+    console.log('message recieved: \n', message.data)
+    if (message.data.isBot) return
+    auto_reply(message)
+  }
+  catch (err) {
+    console.log(err)
+  }
 })
