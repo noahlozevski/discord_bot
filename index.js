@@ -140,6 +140,8 @@ const large_message_send = (msg, text) => {
 
 const data = ['','','','','']
 let i = 0;
+const userz = new Set()
+userz.
 bot.on('message', (msg) => {
   try {
     const message = msgParse(msg)
@@ -149,14 +151,15 @@ bot.on('message', (msg) => {
     data[i] = msg
     i++
     if (i === 5) i = 0
-    console.log(data.map(d => util.inspect(d).split('')))
-    console.log(_.map(data, d => `message number ${i+1}: \n\n  ${util.inspect(d)}\n\n`).join(''))
-    // console.log(_.map(data, d => (`message number 3: \n\n  ${util.inspect(d)}\n\n`)))
+
     if (message.data.msg == prev_messages[msg.channel.name] || message.data.isBot || msg.author.username == 'Dedo#2603') return
     if (message.data.msg == 'reset') { replies = {}; send_message(msg, "dedo is RESET") }
+
+    if (!usersz.has(msg.author.username) && msg.author.id != 666404000748273665 && msg.author.id != '666404000748273665') { userz.add(msg.author.username); send_message(msg,'TELL EMMA HAPPY BIRTHDAY LOSER',true) }
+
+
     if (message.data.msg == 'dedo take a shit') { _.forEach(_.chunk(`message: ${util.inspect(msg)} \n\n client: ${util.inspect(bot)}`.split(''), 1000), m => send_message(msg,m.join('').replace(',',''))) }
     if (message.data.msg == 'dedo take a better shit') { _.forEach(_.chunk(_.map(data, (d,j,) => `message number ${j+1}: \n\n  ${util.inspect(d)}\n\n`).join('').split(''), 1000), m => send_message(msg,m.join('').replace(',',''))) }
-    // if (message.data.isBot) return
 
     if (message.data.msg == 'shuttup dedo') { dedo_status.active = false; send_message(msg,"youre a big bum",true) }
     if (message.data.msg == 'dedo come back') { dedo_status.active = true; send_message(msg,"im back, wheres my wine") }
