@@ -155,7 +155,7 @@ bot.on('message', (msg) => {
     if (message.data.msg == prev_messages[msg.channel.name] || message.data.isBot || msg.author.username == 'Dedo#2603') return
     if (message.data.msg == 'reset') { replies = {}; send_message(msg, "dedo is RESET") }
 
-    if (!usersz.has(msg.author.username) && msg.author.id != 666404000748273665 && msg.author.id != '666404000748273665') { userz.add(msg.author.username); send_message(msg,'TELL EMMA HAPPY BIRTHDAY LOSER',true) }
+    if (!userz.has(msg.author.username) && msg.author.id != 666404000748273665 && msg.author.id != '666404000748273665') { userz.add(msg.author.username); send_message(msg,'TELL EMMA HAPPY BIRTHDAY LOSER',true) }
 
 
     if (message.data.msg == 'dedo take a shit') { _.forEach(_.chunk(`message: ${util.inspect(msg)} \n\n client: ${util.inspect(bot)}`.split(''), 1000), m => send_message(msg,m.join('').replace(',',''))) }
