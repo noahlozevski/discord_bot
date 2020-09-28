@@ -141,7 +141,7 @@ const large_message_send = (msg, text) => {
 const data = ['','','','','']
 let i = 0;
 const userz = new Set()
-userz.
+
 bot.on('message', (msg) => {
   try {
     const message = msgParse(msg)
